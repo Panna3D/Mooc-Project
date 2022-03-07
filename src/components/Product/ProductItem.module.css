@@ -29,3 +29,8 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.cardButton {
+  margin-top: 20px;
+  text-align: center;
+}

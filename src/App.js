@@ -1,59 +1,15 @@
 import Products from "./components/Product/Products";
-import Header from "./components/Layout/Header"
-// import SearchBox from "./components/Product/SearchBox";
+import Header from "./components/Layout/Header";
+import Carts from "./components/Cart/Cart";
+
 import {useState} from 'react';
+import { useSelector} from 'react-redux';
 
 function App() {
+// Input store, actions, slices
+const showCart = useSelector(state => state.ui.cartIsVisible); 
 
-//------------------CALL API---------------------
-
-  // const [products, setProducts] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // const [enteredValue, setEnteredValue] = useState('');
-
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     const response = await fetch(
-  //       'https://react-http-838c9-default-rtdb.firebaseio.com/products.json'
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error('Something went wrong!');
-  //     }
-
-  //     const responseData = await response.json();
-
-  //     const loadedProducts = [];
-
-  //     for (const key in responseData) {
-  //       loadedProducts.push({
-  //         id: key,
-  //         name: responseData[key].name,
-  //         description: responseData[key].description,
-  //         price: responseData[key].price,
-  //       });
-  //     }
-  //     console.log(loadedProducts);
-
-  //     setProducts(loadedProducts);
-  //     setIsLoading(false);
-  //   };
-
-  //     fetchProducts().catch((error) => {
-  //     setIsLoading(false);
-  //   });
-  //   console.log('Test');
-  // }, []);
-
-  // if (isLoading) {
-  //   return (
-  //     <section>
-  //       <p>Loading...</p>
-  //     </section>
-  //   );
-  // }
-//----------------FUNCTIONS-----------------------
+//----------------FUNCTIONS Filter-----------------------
 const [inputText, setInputText] = useState(""); // SearchBox state
 
 let inputHandler = (e) => {
@@ -65,23 +21,21 @@ let inputHandler = (e) => {
 
   return (
     <main>
-      <div><Header/></div>
-      <div className="main">
-      <h1>Search</h1>
-      <div className="search">
-        <input
+      <Header/>
+      <div>
+        { showCart && <Carts/>}
+       <h1>Search</h1>
+        <div>
+          <input
           id="outlined-basic"
           onChange={inputHandler}
-          variant="outlined"
-          fullWidth
           label="Search"
-        />
+          />
+        </div>
       </div>
-    </div>
       <Products input={inputText}/>
     </main>
   );
 }
-// import { useState } from "react";
 
 export default App;

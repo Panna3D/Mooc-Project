@@ -1,6 +1,11 @@
-import Card from '../Rating/Card';
+import Card from '../UI/Card';
 import classes from './Cart.module.css';
 import CartItem from './CartItem';
+// import {
+//   Container, Row, Col, Form, Input, Button, Navbar, Nav,
+//   NavbarBrand, NavLink, NavItem, UncontrolledDropdown,
+//   DropdownToggle, DropdownMenu, DropdownItem
+// } from 'reactstrap';
 
 const Cart = (props) => {
   return (

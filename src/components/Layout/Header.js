@@ -5,6 +5,7 @@ import productHeaderImage from '../../Assets/productHeaderImage.jpeg';
 const Header = props => {
     return (
         <Fragment>
+          {/* <CartButton /> */}
         <header className={classes.header}>
           <h1>Products</h1>
         </header>
