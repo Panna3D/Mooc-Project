@@ -1,12 +1,11 @@
 .cart {
   max-width: 30rem;
-  background-color: #FFFFFF;
+  background-color: #313131;
   color: white;
 }
 
 .cart h2 {
   font-size: 1.25rem;
-  background-color: #588d80;
   margin: 0.5rem 0;
 }
 
