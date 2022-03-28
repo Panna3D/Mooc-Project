@@ -10,8 +10,9 @@ const Notification = (props) => {
     specialClasses = classes.success;
   }
 
+  // Css classes
   const cssClasses = `${classes.notification} ${specialClasses}`;
-
+  
   return (
     <section className={cssClasses}>
       <h2>{props.title}</h2>

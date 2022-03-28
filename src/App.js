@@ -1,14 +1,18 @@
+// ----------- Import libraris
 import { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
+// ----------- Import components / methods
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
-import FilterCategory from './components/Shop/FilterCategory';
+import classes from '../src/components/Shop/ProductItem.module.css';
+
+// import FilterCategory from './components/Shop/FilterCategory';
+import ProductDetail from './components/Shop/ProductDetail';
 import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
 import { sendCartData, fetchCartData } from './store/cart-actions';
-
-// let isInitial = true;
 
 function App() {
   const dispatch = useDispatch();
@@ -18,13 +22,9 @@ function App() {
 
   // SearchBox
   const [inputText, setInputText] = useState(""); // SearchBox state
-  // DropdownList
-  const [filterCategory, setFilterCategory] = useState(false); // SearchBox state
 
-  let isSearchBox = false;
-
+  //searching method
   let inputHandler = (e) => {
-    isSearchBox = true; // check is search?
     let lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
     console.log(lowerCase);
@@ -36,47 +36,44 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    // if (isInitial) {
-    //   isInitial = false;
-    //   return;
-    // }
-
-    // if (cart.changed) {
       dispatch(sendCartData(cart));
-    // }
   }, [cart, dispatch]);
 
   // --------- Render
   return (
     <Fragment>
-      {notification && (
-        <Notification
-          status={notification.status}
-          title={notification.title}
-          message={notification.message}
-        />
-      )}
-        <input
-          placeholder="Search bar"
-          onChange={inputHandler}
-          variant="outlined"
-          label="Search"
-        />
+      < Switch>
+        <Layout>
+          {notification && ( //Show notify Fetch/Put/Push API success / error
+            <Notification 
+              status={notification.status}
+              title={notification.title}
+              message={notification.message}
+            />
+          )}
+          <Route path='/' exact>
+            <Redirect to='/products' />
+          </Route>            
 
-      <div>
-        <FilterCategory />
-      </div>          
+          <Route path='/products' exact>
+            <input className = {classes.searchBox}
+              placeholder="Search bar"
+              onChange={inputHandler}
+              variant="outlined"
+              label="Search"
+            />
+            {showCart && <Cart />} 
+            <Products input = {inputText}/>
+          </Route>
 
-      <Layout>
-        {showCart && <Cart />}
-          {/* {filterCategory && <Products 
-            input = {inputText}
-          />
-          } */}
-          <Products 
-            input = {inputText}
-          />
-      </Layout>
+          <Route path='/products/:productId'>
+            {showCart && <Cart />} 
+            <ProductDetail />
+          </Route>  
+        </Layout>
+
+      </Switch>
+
     </Fragment>
   );
 }
