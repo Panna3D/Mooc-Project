@@ -1,87 +1,81 @@
-import Products from "./components/Product/Products";
-import Header from "./components/Layout/Header"
-// import SearchBox from "./components/Product/SearchBox";
-import {useState} from 'react';
+// ----------- Import libraris
+import { Fragment, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Route, Switch, Redirect } from 'react-router-dom';
+
+// ----------- Import components / methods
+import Cart from './components/Cart/Cart';
+import Layout from './components/Layout/Layout';
+import classes from '../src/components/Shop/ProductItem.module.css';
+
+// import FilterCategory from './components/Shop/FilterCategory';
+import ProductDetail from './components/Shop/ProductDetail';
+import Products from './components/Shop/Products';
+import Notification from './components/UI/Notification';
+import { sendCartData, fetchCartData } from './store/cart-actions';
 
 function App() {
+  const dispatch = useDispatch();
+  const showCart = useSelector((state) => state.ui.cartIsVisible);
+  const cart = useSelector((state) => state.cart);
+  const notification = useSelector((state) => state.ui.notification);
 
-//------------------CALL API---------------------
+  // SearchBox
+  const [inputText, setInputText] = useState(""); // SearchBox state
 
-  // const [products, setProducts] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
+  //searching method
+  let inputHandler = (e) => {
+    let lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+    console.log(lowerCase);
+  };
 
-  // const [enteredValue, setEnteredValue] = useState('');
+  // --------- API
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     const response = await fetch(
-  //       'https://react-http-838c9-default-rtdb.firebaseio.com/products.json'
-  //     );
+  useEffect(() => {
+      dispatch(sendCartData(cart));
+  }, [cart, dispatch]);
 
-  //     if (!response.ok) {
-  //       throw new Error('Something went wrong!');
-  //     }
-
-  //     const responseData = await response.json();
-
-  //     const loadedProducts = [];
-
-  //     for (const key in responseData) {
-  //       loadedProducts.push({
-  //         id: key,
-  //         name: responseData[key].name,
-  //         description: responseData[key].description,
-  //         price: responseData[key].price,
-  //       });
-  //     }
-  //     console.log(loadedProducts);
-
-  //     setProducts(loadedProducts);
-  //     setIsLoading(false);
-  //   };
-
-  //     fetchProducts().catch((error) => {
-  //     setIsLoading(false);
-  //   });
-  //   console.log('Test');
-  // }, []);
-
-  // if (isLoading) {
-  //   return (
-  //     <section>
-  //       <p>Loading...</p>
-  //     </section>
-  //   );
-  // }
-//----------------FUNCTIONS-----------------------
-const [inputText, setInputText] = useState(""); // SearchBox state
-
-let inputHandler = (e) => {
-  //convert input text to lower case
-  var lowerCase = e.target.value.toLowerCase();
-  setInputText(lowerCase);
-  // console.log(lowerCase);
-};
-
+  // --------- Render
   return (
-    <main>
-      <div><Header/></div>
-      <div className="main">
-      <h1>Search</h1>
-      <div className="search">
-        <input
-          id="outlined-basic"
-          onChange={inputHandler}
-          variant="outlined"
-          fullWidth
-          label="Search"
-        />
-      </div>
-    </div>
-      <Products input={inputText}/>
-    </main>
+    <Fragment>
+      < Switch>
+        <Layout>
+          {notification && ( //Show notify Fetch/Put/Push API success / error
+            <Notification 
+              status={notification.status}
+              title={notification.title}
+              message={notification.message}
+            />
+          )}
+          <Route path='/' exact>
+            <Redirect to='/products' />
+          </Route>            
+
+          <Route path='/products' exact>
+            <input className = {classes.searchBox}
+              placeholder="Search bar"
+              onChange={inputHandler}
+              variant="outlined"
+              label="Search"
+            />
+            {showCart && <Cart />} 
+            <Products input = {inputText}/>
+          </Route>
+
+          <Route path='/products/:productId'>
+            {showCart && <Cart />} 
+            <ProductDetail />
+          </Route>  
+        </Layout>
+
+      </Switch>
+
+    </Fragment>
   );
 }
-// import { useState } from "react";
 
 export default App;
