@@ -8,11 +8,11 @@ import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import classes from '../src/components/Shop/ProductItem.module.css';
 
-// import FilterCategory from './components/Shop/FilterCategory';
 import ProductDetail from './components/Shop/ProductDetail';
 import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
 import { sendCartData, fetchCartData } from './store/cart-actions';
+// import Pagination from './components/Pagination/index';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +22,17 @@ function App() {
 
   // SearchBox
   const [inputText, setInputText] = useState(""); // SearchBox state
+
+  // // Pagination
+  // const [pagination, setPagination] = useState({
+  //   _page: 1,
+  //   _limit: 10,
+  //   _totalRows: 1,
+  // });
+
+  // const handlePageChange = (newPage) => {
+  //   console.log('New page', newPage);
+  // };
 
   //searching method
   let inputHandler = (e) => {
@@ -64,6 +75,10 @@ function App() {
             />
             {showCart && <Cart />} 
             <Products input = {inputText}/>
+            {/* <Pagination  */}
+              {/* // pagination = {pagination} */}
+              {/* // onPageChange = {handlePageChange} */}
+            {/* /> */}
           </Route>
 
           <Route path='/products/:productId'>
