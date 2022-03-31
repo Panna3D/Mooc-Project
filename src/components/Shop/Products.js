@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+// Pagination: react-pagination
+import 'react-pagination-bar/dist/index.css'
+import { Pagination } from "react-pagination-bar"
+
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
-// import Pagination from '../Pagination/index';
-import queryString from 'query-string';
 
 const Products = (props) => {
   const { input } = props;
@@ -12,32 +14,15 @@ const Products = (props) => {
 
   const [products, setProducts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  
 
-  let {
-    _page = 1, 
-    _limit = 10, 
-    _totalProduct = 1
- } = pagination;
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageProductLimit = 10;
 
-  // Pagination
-  const [pagination, setPagination] = useState({
-    _page: 1,
-    _limit: 10,
-    _totalProduct: products,
-  });
-
-  const [filter, setFilter] = useState({
-    _page: 1,
-    _limit: 10,
-  })
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const paramString = queryString.stringify(filter);
       const response = await fetch(
-        // 'https://react-http-838c9-default-rtdb.firebaseio.com/products.json'
-        `https://react-http-838c9-default-rtdb.firebaseio.com/products.json?${paramString}`
+        'https://react-http-838c9-default-rtdb.firebaseio.com/products.json'
       );
 
       if (!response.ok) {
@@ -45,8 +30,6 @@ const Products = (props) => {
       }
 
       const responseData = await response.json();
-
-      // const {filter} = responseData;
 
       const loadedProducts = [];
 
@@ -63,7 +46,7 @@ const Products = (props) => {
     };
       fetchProducts().catch((error) => {
     });
-  }, [input, filter]);
+  }, [input, currentPage]);
 
  // Filter data function
   useEffect(() => {
@@ -75,20 +58,24 @@ const Products = (props) => {
       }
   })
   setFilteredData(searchedData);
-},[products, input]);
+  },[products, input, currentPage]);
 
-// handle paginate
+  const totalPages = Math.ceil(products.length / pageProductLimit); 
+
   const handlePageChange = (newPage) => {
-    console.log('New page', newPage);
+    console.log(newPage);
+    setCurrentPage(newPage);
   };
-
-  const totalPages = Math.ceil(_totalProduct / _limit);
 
   return (
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
       <ul>
-      {filteredData.map((product) => (
+        {console.log(currentPage)}
+      {filteredData.slice(
+          (currentPage - 1) * pageProductLimit,
+          (currentPage - 1) * pageProductLimit + pageProductLimit
+        ).map((product) => (
         <ProductItem
           key={product.id}
           id={product.id}
@@ -98,23 +85,33 @@ const Products = (props) => {
           /> 
           ))}
       </ul>
+    
+      {/* <Pagination
+        initialPage={currentPage}
+        itemPerPage={setCurrentPage}
+        onChangePage={(pageNumber) => setCurrentPage(pageNumber)}
+        totalItems={filteredData.length}
+        pageNeighbours={2}
+      /> */}
+
 
       <div>
           <button
               // Disable button prev khi là trang số 1 (đầu tiên)
-              disabled = {_page = 1}
-              onClick = {handlePageChange(_page - 1)}
+              // disabled = {currentPage <= 1}
+              onClick = {() => handlePageChange(currentPage - 1)}
           >
           Prev
           </button>
           <button
               // Disable button next khi là trang số 1 (đầu tiên)
-              disabled = {_page >= totalPages}
-              onClick = {handlePageChange(_page + 1)}
+              // disabled = {currentPage === totalPages}
+              onClick = {() => handlePageChange(currentPage + 1)}
           >
           Next
           </button>
       </div>
+      <br/>
         
     </section>
   );
