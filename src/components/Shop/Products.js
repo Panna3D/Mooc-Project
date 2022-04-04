@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 // Pagination: react-pagination
 import 'react-pagination-bar/dist/index.css'
-import { Pagination } from "react-pagination-bar"
+// import { Pagination } from "react-pagination-bar"
 
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
@@ -85,27 +85,18 @@ const Products = (props) => {
           /> 
           ))}
       </ul>
-    
-      {/* <Pagination
-        initialPage={currentPage}
-        itemPerPage={setCurrentPage}
-        onChangePage={(pageNumber) => setCurrentPage(pageNumber)}
-        totalItems={filteredData.length}
-        pageNeighbours={2}
-      /> */}
 
-
-      <div>
+      <div className={classes.paginationBtn}>
           <button
               // Disable button prev khi là trang số 1 (đầu tiên)
-              // disabled = {currentPage <= 1}
+              disabled = {currentPage <= 1}
               onClick = {() => handlePageChange(currentPage - 1)}
           >
           Prev
           </button>
           <button
               // Disable button next khi là trang số 1 (đầu tiên)
-              // disabled = {currentPage === totalPages}
+              disabled = {currentPage === totalPages}
               onClick = {() => handlePageChange(currentPage + 1)}
           >
           Next

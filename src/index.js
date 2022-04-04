@@ -1,19 +1,22 @@
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import React from 'react';
+import { AuthContextProvider } from './store/auth-context';
 
-import store from './store/reducer';
+import cartStore from './store/reducer';
 import './index.css';
 import App from './App';
-// import App from './AppRouter';
 
 import { BrowserRouter} from 'react-router-dom';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </BrowserRouter>,
+  <AuthContextProvider>
+    <BrowserRouter>
+      <Provider store={cartStore}>
+        <App />
+      </Provider>
+  </BrowserRouter>
+  </AuthContextProvider>
+,
   document.getElementById('root')
 );    

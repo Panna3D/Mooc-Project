@@ -1,17 +1,27 @@
 // ----------- Import libraris
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 // ----------- Import components / methods
+// import Home from './components/Pages/Home';
+// import ProductDetail from '../src/components/Pages/ProductDetail';
+
+// Layout
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import classes from '../src/components/Shop/ProductItem.module.css';
+import AuthContext from '../src/store/auth-context';
 
+// Call API Cart
+import { sendCartData, fetchCartData } from './store/cart-actions';
+
+// Component Link
 import ProductDetail from './components/Shop/ProductDetail';
 import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
-import { sendCartData, fetchCartData } from './store/cart-actions';
+import Auth from './components/Pages/Auth';
+// import Home from './components/Pages/Home';
 // import Pagination from './components/Pagination/index';
 
 function App() {
@@ -20,25 +30,19 @@ function App() {
   const cart = useSelector((state) => state.cart);
   const notification = useSelector((state) => state.ui.notification);
 
+  // auth state
+  const authCtx = useContext(AuthContext);
+  const isLoggedIn = authCtx.isLoggedIn;
+
+  console.log(isLoggedIn);
+
   // SearchBox
   const [inputText, setInputText] = useState(""); // SearchBox state
-
-  // // Pagination
-  // const [pagination, setPagination] = useState({
-  //   _page: 1,
-  //   _limit: 10,
-  //   _totalRows: 1,
-  // });
-
-  // const handlePageChange = (newPage) => {
-  //   console.log('New page', newPage);
-  // };
 
   //searching method
   let inputHandler = (e) => {
     let lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
-    console.log(lowerCase);
   };
 
   // --------- API
@@ -62,10 +66,23 @@ function App() {
               message={notification.message}
             />
           )}
+
+          {!isLoggedIn && (
+          <Route path='/' exact>
+            <Redirect to='/auth' />
+          </Route>)}  
+
+          {!isLoggedIn && (
+          <Route path='/auth' >
+            <Auth />
+          </Route>)}  
+
+          {isLoggedIn && (
           <Route path='/' exact>
             <Redirect to='/products' />
-          </Route>            
+          </Route>)}
 
+          {isLoggedIn && (
           <Route path='/products' exact>
             <input className = {classes.searchBox}
               placeholder="Search bar"
@@ -75,16 +92,13 @@ function App() {
             />
             {showCart && <Cart />} 
             <Products input = {inputText}/>
-            {/* <Pagination  */}
-              {/* // pagination = {pagination} */}
-              {/* // onPageChange = {handlePageChange} */}
-            {/* /> */}
-          </Route>
+          </Route>)}
 
+          {isLoggedIn && (
           <Route path='/products/:productId'>
             {showCart && <Cart />} 
             <ProductDetail />
-          </Route>  
+          </Route>)}  
         </Layout>
 
       </Switch>
