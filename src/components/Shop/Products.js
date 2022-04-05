@@ -10,8 +10,6 @@ import classes from './Products.module.css';
 const Products = (props) => {
   const { input } = props;
 
-  console.log(input); // testing
-
   const [products, setProducts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
@@ -63,7 +61,7 @@ const Products = (props) => {
   const totalPages = Math.ceil(products.length / pageProductLimit); 
 
   const handlePageChange = (newPage) => {
-    console.log(newPage);
+    // console.log(newPage);
     setCurrentPage(newPage);
   };
 
@@ -71,7 +69,6 @@ const Products = (props) => {
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
       <ul>
-        {console.log(currentPage)}
       {filteredData.slice(
           (currentPage - 1) * pageProductLimit,
           (currentPage - 1) * pageProductLimit + pageProductLimit
