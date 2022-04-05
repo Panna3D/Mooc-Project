@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import classes from './ProductDetail.module.css';
 
 const ProductDetail = (props) => {
-    // const { product } = props;
     const params = useParams();
     const [products, setProducts] = useState([]);
 

@@ -68,7 +68,7 @@ function App() {
           )}
 
           {!isLoggedIn && (
-          <Route path='/' exact>
+          <Route path='/'>
             <Redirect to='/auth' />
           </Route>)}  
 
@@ -78,12 +78,13 @@ function App() {
           </Route>)}  
 
           {isLoggedIn && (
-          <Route path='/' exact>
+          <Route path='/' ex>
             <Redirect to='/products' />
-          </Route>)}
+          </Route>
+          )}
 
           {isLoggedIn && (
-          <Route path='/products' exact>
+          <Route path='/products'>
             <input className = {classes.searchBox}
               placeholder="Search bar"
               onChange={inputHandler}
@@ -92,13 +93,16 @@ function App() {
             />
             {showCart && <Cart />} 
             <Products input = {inputText}/>
-          </Route>)}
+          </Route>
+          )}
 
           {isLoggedIn && (
           <Route path='/products/:productId'>
             {showCart && <Cart />} 
             <ProductDetail />
-          </Route>)}  
+          </Route>
+          )}  
+
         </Layout>
 
       </Switch>
