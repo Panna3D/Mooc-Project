@@ -33,7 +33,7 @@ const ProductItem = (props) => {
         <div className={classes.actions}>
           <button onClick={addToCartHandler}>Add to Cart</button>
         </div>
-        <Link className='btn' to={`/products/${id}`}>
+        <Link className='btn' to={`/product/${id}`}>
         View Detail
         </Link>
       </Card>

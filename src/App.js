@@ -66,43 +66,38 @@ function App() {
               message={notification.message}
             />
           )}
-
-          {!isLoggedIn && (
-          <Route path='/'>
-            <Redirect to='/auth' />
-          </Route>)}  
-
-          {!isLoggedIn && (
-          <Route path='/auth' >
-            <Auth />
-          </Route>)}  
-
-          {isLoggedIn && (
-          <Route path='/' ex>
-            <Redirect to='/products' />
-          </Route>
-          )}
-
-          {isLoggedIn && (
-          <Route path='/products'>
-            <input className = {classes.searchBox}
+          <input className = {classes.searchBox}
               placeholder="Search bar"
               onChange={inputHandler}
               variant="outlined"
               label="Search"
-            />
-            {showCart && <Cart />} 
-            <Products input = {inputText}/>
+          />
+          {showCart && <Cart />} 
+
+          {/* {!isLoggedIn && ( */}
+          <Route path='/auth' >
+            <Auth />
+          </Route>
+          {/* )}   */}
+
+          {isLoggedIn && (
+          <Route path='/'>
+            <Redirect to='/products' />
           </Route>
           )}
 
-          {isLoggedIn && (
-          <Route path='/products/:productId'>
-            {showCart && <Cart />} 
+          <Route path='/' >
+            <Redirect to='/products' />
+          </Route>
+
+          <Route path='/products'>
+            <Products input = {inputText}/>
+          </Route>
+
+          <Route path='/product/:productId'>
             <ProductDetail />
           </Route>
-          )}  
-
+        
         </Layout>
 
       </Switch>
