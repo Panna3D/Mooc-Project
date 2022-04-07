@@ -38,12 +38,19 @@ function App() {
 
   // SearchBox
   const [inputText, setInputText] = useState(""); // SearchBox state
+  // Filter category
+  // const [category, setCategory] = useState('');
+
 
   //searching method
   let inputHandler = (e) => {
     let lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
   };
+
+  // const handleCategoryChange = (e) => {
+  //   e.target.value;
+  // };
 
   // --------- API
   useEffect(() => {
@@ -72,6 +79,11 @@ function App() {
               variant="outlined"
               label="Search"
           />
+          {/* <select name="category" value={category} onChange={handleCategoryChange}>
+            <option id="0" >Personal</option>
+            <option id="1" >Work</option>
+          </select> */}
+
           {showCart && <Cart />} 
 
           {/* {!isLoggedIn && ( */}
