@@ -10,12 +10,18 @@ import classes from './Products.module.css';
 const Products = (props) => {
   const { input } = props;
 
+  // SearchBox (main logic to default display page)
   const [products, setProducts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
+  // State của Dropdownlist
+  const [selected, setSelected] = useState('');
+  const [isSelect, setIsSelect] = useState(false);
+  const [categoriedData, setCategoriedData] = useState([]);
+  
+  // Filter category
   const [currentPage, setCurrentPage] = useState(1);
   const pageProductLimit = 10;
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,6 +43,7 @@ const Products = (props) => {
           name: responseData[key].name,
           description: responseData[key].description,
           price: responseData[key].price,
+          category: responseData[key].category,
         });
       }
 
@@ -55,32 +62,73 @@ const Products = (props) => {
           return el.name.toLowerCase().includes(input);
       }
   })
-  setFilteredData(searchedData);
+    setFilteredData(searchedData);
   },[products, input, currentPage]);
 
+  // Pagnination
   const totalPages = Math.ceil(products.length / pageProductLimit); 
-
   const handlePageChange = (newPage) => {
-    // console.log(newPage);
     setCurrentPage(newPage);
+  };
+
+  // Hàm tìm những sản phẩm có cùng category
+  useEffect(() => {
+    const categories = products.filter((item) => {
+      return item.category === selected
+    })
+    setCategoriedData(categories);
+    console.log(categories);
+  }, [selected]);
+
+  // Xử lý select category
+  const handlerSelect = (e) => {
+    let itemValue = e.target.value; 
+    setSelected(e.target.value);
+    console.log(e.target.value);
+
+    setIsSelect(true);
+
+    console.log(isSelect);
+    // console.log(selected);
   };
 
   return (
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
+
+      <select onChange={handlerSelect}>
+        {products.map((prd) => (
+            <option value={prd.category}>{prd.category}</option>
+        ))}
+      </select>
+
       <ul>
-      {filteredData.slice(
+        {!isSelect && filteredData.slice(
           (currentPage - 1) * pageProductLimit,
           (currentPage - 1) * pageProductLimit + pageProductLimit
         ).map((product) => (
-        <ProductItem
-          key={product.id}
-          id={product.id}
-          name={product.name}
-          description={product.description}
-          price={product.price}
-          /> 
-          ))}
+          <ProductItem
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            description={product.description}
+            price={product.price}
+            /> 
+        ))}
+
+        {isSelect && categoriedData.slice(
+          (currentPage - 1) * pageProductLimit,
+          (currentPage - 1) * pageProductLimit + pageProductLimit
+        ).map((product) => (
+          <ProductItem
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            description={product.description}
+            price={product.price}
+            /> 
+        ))}
+
       </ul>
 
       <div className={classes.paginationBtn}>

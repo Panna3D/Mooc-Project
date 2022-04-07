@@ -27,13 +27,13 @@ const MainHeader = (props) => {
 
             {!isLoggedIn &&(
               <button>
-              <Link to='/auth'>Login</Link>
+                <Link to='/auth'>Login</Link>
               </button>
             )}
 
             {isLoggedIn &&(
               <button onClick={logoutHandler}>
-              <Link to='/products'>Logout</Link>
+                <Link to='/products'>Logout</Link>
               </button>
             )}      
 
