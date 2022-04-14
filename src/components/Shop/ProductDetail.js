@@ -3,6 +3,7 @@ import Card from '../UI/Card';
 import ProductItem from './ProductItem';
 import { useEffect, useState } from 'react';
 
+
 import classes from './ProductDetail.module.css';
 
 const ProductDetail = (props) => {
@@ -57,7 +58,9 @@ const ProductDetail = (props) => {
                         price={product.price}
                     /> 
                 </section>
+                {/* <Rating /> */}
             </Card>
+           
         </>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 // Pagination: react-pagination
 import 'react-pagination-bar/dist/index.css'
+import Rating from 'react-rating';
 // import { Pagination } from "react-pagination-bar"
 
 import ProductItem from './ProductItem';
@@ -71,25 +72,20 @@ const Products = (props) => {
     setCurrentPage(newPage);
   };
 
-  // Hàm tìm những sản phẩm có cùng category
+  // Category products after select item on Dropdownlist
   useEffect(() => {
     const categories = products.filter((item) => {
       return item.category === selected
     })
     setCategoriedData(categories);
-    console.log(categories);
   }, [selected]);
 
-  // Xử lý select category
+  // Handler event from Dropdownlist
   const handlerSelect = (e) => {
     let itemValue = e.target.value; 
-    setSelected(e.target.value);
-    console.log(e.target.value);
-
+    setSelected(itemValue);
     setIsSelect(true);
-
     console.log(isSelect);
-    // console.log(selected);
   };
 
   return (
@@ -101,6 +97,8 @@ const Products = (props) => {
             <option value={prd.category}>{prd.category}</option>
         ))}
       </select>
+
+      {/* <Rating /> */}
 
       <ul>
         {!isSelect && filteredData.slice(
