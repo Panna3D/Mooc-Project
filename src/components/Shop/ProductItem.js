@@ -1,9 +1,11 @@
+// import Rating from 'react-rating';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { cartActions } from '../../store/cart-slice';
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
+import Rating from '../Rating/index';
 
 const ProductItem = (props) => {
   const dispatch = useDispatch();
@@ -34,8 +36,11 @@ const ProductItem = (props) => {
           <button onClick={addToCartHandler}>Add to Cart</button>
         </div>
         <Link className='btn' to={`/product/${id}`}>
-        View Detail
-        </Link>
+          View Detail
+        </Link>  
+        <div>
+          <Rating />  
+        </div>
       </Card>
     </li>
   );

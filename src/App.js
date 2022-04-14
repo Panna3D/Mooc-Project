@@ -12,6 +12,7 @@ import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import classes from '../src/components/Shop/ProductItem.module.css';
 import AuthContext from '../src/store/auth-context';
+import Rating from 'react-rating';
 
 // Call API Cart
 import { sendCartData, fetchCartData } from './store/cart-actions';
@@ -22,7 +23,7 @@ import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
 import Auth from './components/Pages/Auth';
 // import Home from './components/Pages/Home';
-// import Pagination from './components/Pagination/index';
+import Ratting from './components/Rating/index';
 
 function App() {
   const dispatch = useDispatch();
@@ -79,10 +80,7 @@ function App() {
               variant="outlined"
               label="Search"
           />
-          {/* <select name="category" value={category} onChange={handleCategoryChange}>
-            <option id="0" >Personal</option>
-            <option id="1" >Work</option>
-          </select> */}
+          {/* <Ratting /> */}
 
           {showCart && <Cart />} 
 
