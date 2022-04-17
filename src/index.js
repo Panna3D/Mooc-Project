@@ -8,7 +8,6 @@ import './index.css';
 import App from './App';
 
 import { BrowserRouter} from 'react-router-dom';
-import AppRating from './AppRating';
 
 ReactDOM.render(
   <AuthContextProvider>
@@ -19,7 +18,6 @@ ReactDOM.render(
       </Provider>
   </BrowserRouter>
   </AuthContextProvider>
-  // <AppRating />
 ,
   document.getElementById('root')
 );    

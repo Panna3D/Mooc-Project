@@ -50,6 +50,7 @@ const ProductDetail = (props) => {
             </div>
             <Card>
                 <section>
+                    <ul>
                     <ProductItem
                         key={product.id}
                         id={product.id}
@@ -57,6 +58,7 @@ const ProductDetail = (props) => {
                         description={product.description}
                         price={product.price}
                     /> 
+                    </ul>
                 </section>
                 {/* <Rating /> */}
             </Card>

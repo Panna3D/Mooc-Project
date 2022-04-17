@@ -18,3 +18,8 @@
   background-color: rgb(226, 226, 226);
   color: rgb(7, 7, 7);
 }
+
+.searchBox {
+  /* margin: auto; */
+  text-align: center;
+}
