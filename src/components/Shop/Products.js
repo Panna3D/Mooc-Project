@@ -20,6 +20,7 @@ const Products = (props) => {
   const [selected, setSelected] = useState('');
   const [isSelect, setIsSelect] = useState(false);
   const [categoriedData, setCategoriedData] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,6 +39,8 @@ const Products = (props) => {
       const responseData = await response.json();
 
       const loadedProducts = [];
+      const loadedProductCategory = [];
+
 
       for (const key in responseData) {
         loadedProducts.push({
@@ -49,6 +52,13 @@ const Products = (props) => {
         });
       }
 
+      for (const key in responseData){
+        loadedProductCategory.push({
+          category: responseData[key].category
+        })
+      }
+
+      setCategoryList(loadedProductCategory);
       setProducts(loadedProducts);
     };
       fetchProducts().catch((error) => {
@@ -60,6 +70,10 @@ const Products = (props) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+
+  // let mySet = new Set(categoryList);
+  // let result = Array.from(mySet);
+  // console.log(result);
 
   // Category products after select item on Dropdownlist
   useEffect(() => {
@@ -77,16 +91,15 @@ const Products = (props) => {
     console.log(isSelect);
   };
 
-  // Handler searching
+  // Handler searching from search box
   const inputHandler = () => {
     let result = inputRef.current.value;
-    if(result.trim() === '') return;
-    console.log(result);
+    // if(result.trim() === '') return;
     setInputText(result);
     setIsSelect(false);
   };
 
-   // Filter data function
+   // Searching data
    useEffect(() => {
     const searchedData = products.filter((el) => {
       if (inputText.trim() === '') {
@@ -101,22 +114,26 @@ const Products = (props) => {
   return (
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
-      <div className = {classes.searchBox}s>
+      <div className = {classes.searchBox}>
         <input 
-                placeholder="Search bar"
-                ref={inputRef}
-                variant="outlined"
-                label="Search"
+          placeholder="Search bar"
+          ref={inputRef}
+          variant="outlined"
+          label="Search"
         />
         <button onClick={inputHandler}>Search</button>
-      </div>
-      <br/>
 
-      <select onChange={handlerSelect}>
-        {products.map((prd) => (
-            <option value={prd.category}>{prd.category}</option>
-        ))}
-      </select>
+        <br/>
+
+        <select onChange={handlerSelect}>
+          {categoryList.map((prd) => (
+            // {result.map((prd) => (
+              <option value={prd.category}>{prd.category}</option>
+          ))}
+        </select>
+        <br/>
+
+      </div>
 
       <ul>
         {!isSelect && filteredData.slice(
