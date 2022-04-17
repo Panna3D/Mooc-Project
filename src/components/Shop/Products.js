@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // Pagination: react-pagination
 import 'react-pagination-bar/dist/index.css'
@@ -9,11 +9,13 @@ import ProductItem from './ProductItem';
 import classes from './Products.module.css';
 
 const Products = (props) => {
-  const { input } = props;
+  // const { input } = props;
+  let inputRef = useRef();
 
   // SearchBox (main logic to default display page)
   const [products, setProducts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [inputText, setInputText] = useState(""); // SearchBox state
 
   // State của Dropdownlist
   const [selected, setSelected] = useState('');
@@ -52,19 +54,7 @@ const Products = (props) => {
     };
       fetchProducts().catch((error) => {
     });
-  }, [input, currentPage]);
-
- // Filter data function
-  useEffect(() => {
-    const searchedData = products.filter((el) => {
-      if (input === '') {
-          return el;
-      } else {
-          return el.name.toLowerCase().includes(input);
-      }
-  })
-    setFilteredData(searchedData);
-  },[products, input, currentPage]);
+  }, [currentPage]);
 
   // Pagnination
   const totalPages = Math.ceil(products.length / pageProductLimit); 
@@ -88,17 +78,45 @@ const Products = (props) => {
     console.log(isSelect);
   };
 
+  // Handler searching
+  const inputHandler = () => {
+    let result = inputRef.current.value;
+    console.log(result);
+    setInputText(result);
+    setIsSelect(false);
+  };
+
+   // Filter data function
+   useEffect(() => {
+    const searchedData = products.filter((el) => {
+      if (inputText.trim() === '') {
+          return el;
+      } else {
+          return el.name.toLowerCase().includes(inputText);
+      }
+  })
+    setFilteredData(searchedData);
+  },[products, inputText, currentPage]);
+
   return (
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
+      <div className = {classes.searchBox}s>
+        <input 
+                placeholder="Search bar"
+                ref={inputRef}
+                variant="outlined"
+                label="Search"
+        />
+        <button onClick={inputHandler}>Search</button>
+      </div>
+      <br/>
 
       <select onChange={handlerSelect}>
         {products.map((prd) => (
             <option value={prd.category}>{prd.category}</option>
         ))}
       </select>
-
-      {/* <Rating /> */}
 
       <ul>
         {!isSelect && filteredData.slice(
@@ -131,14 +149,12 @@ const Products = (props) => {
 
       <div className={classes.paginationBtn}>
           <button
-              // Disable button prev khi là trang số 1 (đầu tiên)
               disabled = {currentPage <= 1}
               onClick = {() => handlePageChange(currentPage - 1)}
           >
           Prev
           </button>
           <button
-              // Disable button next khi là trang số 1 (đầu tiên)
               disabled = {currentPage === totalPages}
               onClick = {() => handlePageChange(currentPage + 1)}
           >

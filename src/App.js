@@ -1,5 +1,5 @@
 // ----------- Import libraris
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -10,9 +10,9 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 // Layout
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
-import classes from '../src/components/Shop/ProductItem.module.css';
+// import classes from '../src/components/Shop/ProductItem.module.css';
 import AuthContext from '../src/store/auth-context';
-import Rating from 'react-rating';
+// import Rating from 'react-rating';
 
 // Call API Cart
 import { sendCartData, fetchCartData } from './store/cart-actions';
@@ -23,7 +23,6 @@ import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
 import Auth from './components/Pages/Auth';
 // import Home from './components/Pages/Home';
-import Ratting from './components/Rating/index';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,19 +37,15 @@ function App() {
   console.log(isLoggedIn);
 
   // SearchBox
-  const [inputText, setInputText] = useState(""); // SearchBox state
+  // const [inputText, setInputText] = useState(""); // SearchBox state
   // Filter category
   // const [category, setCategory] = useState('');
 
 
   //searching method
-  let inputHandler = (e) => {
-    let lowerCase = e.target.value.toLowerCase();
-    setInputText(lowerCase);
-  };
-
-  // const handleCategoryChange = (e) => {
-  //   e.target.value;
+  // let inputHandler = (e) => {
+  //   let lowerCase = e.target.value.toLowerCase();
+  //   setInputText(lowerCase);
   // };
 
   // --------- API
@@ -74,13 +69,12 @@ function App() {
               message={notification.message}
             />
           )}
-          <input className = {classes.searchBox}
+          {/* <input className = {classes.searchBox}
               placeholder="Search bar"
               onChange={inputHandler}
               variant="outlined"
               label="Search"
-          />
-          {/* <Ratting /> */}
+          /> */}
 
           {showCart && <Cart />} 
 
@@ -101,7 +95,7 @@ function App() {
           </Route>
 
           <Route path='/products'>
-            <Products input = {inputText}/>
+            <Products/>
           </Route>
 
           <Route path='/product/:productId'>
