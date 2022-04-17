@@ -26,6 +26,9 @@ const AuthForm = () => {
     // optional: Add validation
 
     setIsLoading(true);
+
+    // const token = localStorage.token;
+
     let url;
     if (isLogin) {
       url =
@@ -43,8 +46,9 @@ const AuthForm = () => {
       }),
       headers: {
         'Content-Type': 'application/json',
+        // 'Authorization': `Bearer ${token}`
       },
-    })
+      })
       .then((res) => {
         setIsLoading(false);
         if (res.ok) {
@@ -52,17 +56,13 @@ const AuthForm = () => {
         } else {
           return res.json().then((data) => {
             let errorMessage = 'Authentication failed!';
-            // if (data && data.error && data.error.message) {
-            //   errorMessage = data.error.message;
-            // }
-
             throw new Error(errorMessage);
           });
         }
       })
       .then((data) => {
-        console.log(data);
         authCtx.login(data.idToken); // add auth token
+        console.log(data);
       })
       .catch((err) => {
         alert(err.message);

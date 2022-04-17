@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 
 // Pagination: react-pagination
 import 'react-pagination-bar/dist/index.css'
-import Rating from 'react-rating';
 // import { Pagination } from "react-pagination-bar"
 
 import ProductItem from './ProductItem';
@@ -22,7 +21,7 @@ const Products = (props) => {
   const [isSelect, setIsSelect] = useState(false);
   const [categoriedData, setCategoriedData] = useState([]);
   
-  // Filter category
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const pageProductLimit = 10;
 
@@ -70,7 +69,7 @@ const Products = (props) => {
     setCategoriedData(categories);
   }, [selected]);
 
-  // Handler event from Dropdownlist
+  // Handler select of Dropdownlist
   const handlerSelect = (e) => {
     let itemValue = e.target.value; 
     setSelected(itemValue);
@@ -81,6 +80,7 @@ const Products = (props) => {
   // Handler searching
   const inputHandler = () => {
     let result = inputRef.current.value;
+    if(result.trim() === '') return;
     console.log(result);
     setInputText(result);
     setIsSelect(false);
@@ -129,6 +129,7 @@ const Products = (props) => {
             name={product.name}
             description={product.description}
             price={product.price}
+            category={product.category}
             /> 
         ))}
 
@@ -142,6 +143,7 @@ const Products = (props) => {
             name={product.name}
             description={product.description}
             price={product.price}
+            category={product.category}
             /> 
         ))}
 
