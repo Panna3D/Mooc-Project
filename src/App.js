@@ -36,18 +36,6 @@ function App() {
 
   console.log(isLoggedIn);
 
-  // SearchBox
-  // const [inputText, setInputText] = useState(""); // SearchBox state
-  // Filter category
-  // const [category, setCategory] = useState('');
-
-
-  //searching method
-  // let inputHandler = (e) => {
-  //   let lowerCase = e.target.value.toLowerCase();
-  //   setInputText(lowerCase);
-  // };
-
   // --------- API
   useEffect(() => {
     dispatch(fetchCartData());
@@ -69,20 +57,12 @@ function App() {
               message={notification.message}
             />
           )}
-          {/* <input className = {classes.searchBox}
-              placeholder="Search bar"
-              onChange={inputHandler}
-              variant="outlined"
-              label="Search"
-          /> */}
 
           {showCart && <Cart />} 
 
-          {/* {!isLoggedIn && ( */}
           <Route path='/auth' >
             <Auth />
           </Route>
-          {/* )}   */}
 
           {isLoggedIn && (
           <Route path='/'>
@@ -103,9 +83,7 @@ function App() {
           </Route>
         
         </Layout>
-
       </Switch>
-
     </Fragment>
   );
 }

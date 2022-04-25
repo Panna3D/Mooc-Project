@@ -7,13 +7,9 @@ import AuthContext from '../../store/auth-context';
 
 const MainHeader = (props) => {
   const authCtx = useContext(AuthContext);
-  const location = useLocation();
+  // const location = useLocation();
   // auth state context
   const isLoggedIn = authCtx.isLoggedIn;
-
-  const loginHandler = () => {
-
-  }
 
   const logoutHandler = () => {
     authCtx.logout();
@@ -28,7 +24,7 @@ const MainHeader = (props) => {
           <li>
             <CartButton />
             {!isLoggedIn &&(
-              <button onClick={loginHandler}>
+              <button>
                 <Link to='/auth'>Login</Link>
               </button>
             )}

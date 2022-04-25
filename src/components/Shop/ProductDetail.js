@@ -1,6 +1,6 @@
 import { useParams} from 'react-router-dom';
 import Card from '../UI/Card';
-import ProductItem from './ProductItem';
+import ProductItemDetail from './ProductItemDetail';
 import { useEffect, useState } from 'react';
 
 
@@ -15,7 +15,7 @@ const ProductDetail = (props) => {
             const response = await fetch(
             'https://react-http-838c9-default-rtdb.firebaseio.com/products.json'
             );
-    
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -40,7 +40,7 @@ const ProductDetail = (props) => {
     const product = products.find((prd) => prd.id === params.productId);
 
     if (!product) {
-        return <p>No product found!</p>;
+        return <p style = {{textAlign: 'center'}}>No product found!</p>;
     }
 
     return (
@@ -51,7 +51,7 @@ const ProductDetail = (props) => {
             <Card>
                 <section>
                     <ul>
-                    <ProductItem
+                    <ProductItemDetail
                         key={product.id}
                         id={product.id}
                         name={product.name}
@@ -60,9 +60,7 @@ const ProductDetail = (props) => {
                     /> 
                     </ul>
                 </section>
-                {/* <Rating /> */}
             </Card>
-           
         </>
   );
 };

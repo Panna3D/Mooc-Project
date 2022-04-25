@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
+import { uiActions } from '../../store/ui-slice';
 
 // Pagination: react-pagination
 import 'react-pagination-bar/dist/index.css'
-// import { Pagination } from "react-pagination-bar"
 
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
@@ -18,10 +18,11 @@ const Products = (props) => {
 
   // State của Dropdownlist
   const [selected, setSelected] = useState('');
+  const [isNoProduct, setIsNoProduct] = useState(false);
   const [isSelect, setIsSelect] = useState(false);
   const [categoriedData, setCategoriedData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  
+
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const pageProductLimit = 10;
@@ -40,7 +41,6 @@ const Products = (props) => {
 
       const loadedProducts = [];
       const loadedProductCategory = [];
-
 
       for (const key in responseData) {
         loadedProducts.push({
@@ -63,25 +63,28 @@ const Products = (props) => {
     };
       fetchProducts().catch((error) => {
     });
-  }, [currentPage]);
+  }, [currentPage, products, inputText]);
 
   // Pagnination
   const totalPages = Math.ceil(products.length / pageProductLimit); 
+
   const handlePageChange = (newPage) => {
+
+    if(filteredData.length <= 10) {
+      // setIsSearch(false);
+      return;
+    }
     setCurrentPage(newPage);
   };
 
-  // let mySet = new Set(categoryList);
-  // let result = Array.from(mySet);
-  // console.log(result);
-
   // Category products after select item on Dropdownlist
   useEffect(() => {
+    // setIsSearch(false);
     const categories = products.filter((item) => {
       return item.category === selected
     })
     setCategoriedData(categories);
-  }, [selected]);
+  }, [selected, products]);
 
   // Handler select of Dropdownlist
   const handlerSelect = (e) => {
@@ -92,19 +95,22 @@ const Products = (props) => {
   };
 
   // Handler searching from search box
-  const inputHandler = () => {
-    let result = inputRef.current.value;
-    // if(result.trim() === '') return;
-    setInputText(result);
-    setIsSelect(false);
-  };
+  // useEffect(() => {
+    const inputHandler = () => {
+      let result = inputRef.current.value;
+      setInputText(result);
+      setIsSelect(false);
+    };
+  // }},[products, inputText]);
 
    // Searching data
    useEffect(() => {
     const searchedData = products.filter((el) => {
       if (inputText.trim() === '') {
+          // setIsSearch(false);
           return el;
       } else {
+          // setIsSearch(true);
           return el.name.toLowerCase().includes(inputText);
       }
   })
@@ -116,13 +122,14 @@ const Products = (props) => {
       <h2>Buy your favorite products</h2>
       <div className = {classes.searchBox}>
         <input 
-          placeholder="Search bar"
+          placeholder="Search Product Name"
           ref={inputRef}
           variant="outlined"
           label="Search"
-        />
-        <button onClick={inputHandler}>Search</button>
-
+        /> 
+        <span style={{marginLeft: 20}}>  
+          <button style={{lineHeight: 0.5}} onClick={inputHandler}>Search</button>
+        </span>
         <br/>
 
         <select onChange={handlerSelect}>
@@ -136,6 +143,7 @@ const Products = (props) => {
       </div>
 
       <ul>
+
         {!isSelect && filteredData.slice(
           (currentPage - 1) * pageProductLimit,
           (currentPage - 1) * pageProductLimit + pageProductLimit
@@ -166,6 +174,7 @@ const Products = (props) => {
 
       </ul>
 
+      {/* {isSearch &&  */}
       <div className={classes.paginationBtn}>
           <button
               disabled = {currentPage <= 1}
@@ -180,6 +189,7 @@ const Products = (props) => {
           Next
           </button>
       </div>
+      {/* } */}
       <br/>
         
     </section>

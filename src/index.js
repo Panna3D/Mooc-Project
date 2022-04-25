@@ -14,9 +14,8 @@ ReactDOM.render(
     <BrowserRouter>
       <Provider store={cartStore}>
         <App />
-        {/* <AppRating /> */}
       </Provider>
-  </BrowserRouter>
+    </BrowserRouter>
   </AuthContextProvider>
 ,
   document.getElementById('root')

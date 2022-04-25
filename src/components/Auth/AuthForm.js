@@ -30,6 +30,7 @@ const AuthForm = () => {
     // const token = localStorage.token;
 
     let url;
+
     if (isLogin) {
       url =
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCHYvAThdV_xY6j-hr_Ds2dMusJbfN20uI';
@@ -62,7 +63,7 @@ const AuthForm = () => {
       })
       .then((data) => {
         authCtx.login(data.idToken); // add auth token
-        console.log(data);
+        // console.log(data);
       })
       .catch((err) => {
         alert(err.message);

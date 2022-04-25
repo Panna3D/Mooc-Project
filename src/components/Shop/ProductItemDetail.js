@@ -1,6 +1,5 @@
 // import Rating from 'react-rating';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { cartActions } from '../../store/cart-slice';
 import Card from '../UI/Card';
@@ -23,10 +22,6 @@ const ProductItem = (props) => {
     );
   };
 
-  const handlerClick = () => {
-    console.log();
-  }
-
   return (
     <li className={classes.item}>
       <Card>
@@ -39,11 +34,6 @@ const ProductItem = (props) => {
         <div className={classes.actions}>
           <button onClick={addToCartHandler}>Add to Cart</button>
         </div>
-        <button onClick={handlerClick}>
-          <Link className='btn' to={`/product/${id}`}>
-            View Detail
-          </Link>
-        </button> 
         <div>
           <Rating />  
         </div>
